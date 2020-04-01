@@ -36,14 +36,12 @@ class SubRedditServiceImpl implements SubRedditService {
   };
 
   private fetchPostsExternally(): Promise<string[]> {
-    console.log('service.fetchPostsExternally');
     return fetch(`https://www.reddit.com/r/${this.subReddit}.json`)
     .then(response => response.json())
     .then(json => json.data.children.map((child: any) => child.data).map((entry: any) => entry.title));
   };
 
   requestPosts(invalidate: boolean): SubRedditService {
-    console.log('service.requestPosts: ' + this.shouldFetchPosts(invalidate));
     if (this.shouldFetchPosts(invalidate)) {
       return new SubRedditServiceImpl(this.subReddit, this.lastUpdated, this.posts, this.fetchPostsExternally());
     }
@@ -51,7 +49,6 @@ class SubRedditServiceImpl implements SubRedditService {
   };
 
   fetchPosts(): Promise<SubRedditService> {
-    console.log('service.fetchPosts');
     if (this.fetchPromise === null) {
       return Promise.resolve(this);
     }

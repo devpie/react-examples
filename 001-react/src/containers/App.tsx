@@ -21,8 +21,6 @@ class App extends Component<{}, AppState> {
 
   private requestPosts = (state: AppState) => {
     const [newState, newService] = requestPosts(state, this.selectService(state));
-    console.log("comp request: ");
-    console.log(newService);
     this.setService(newState, newService);
     return newState;
   };
@@ -34,8 +32,6 @@ class App extends Component<{}, AppState> {
 
   private fetchPosts = (): void => {
     const state = this.state;
-    console.log("comp fetch: ");
-    console.log(this.selectService(state));
     fetchPosts(state, this.selectService(state)).then(this.updateState);
   };
 
@@ -54,13 +50,11 @@ class App extends Component<{}, AppState> {
 
   refresh = (e: any) => {
     e.preventDefault();
-    console.log("refresh");
     this.setState(invalidateSubReddit);
     this.setState(this.requestPosts, this.fetchPosts);
   };
 
   render() {
-    console.log(this.state);
     const {isFetching, items, lastUpdated} = selectPosts(this.state);
     const isEmpty = items.length === 0;
     return (

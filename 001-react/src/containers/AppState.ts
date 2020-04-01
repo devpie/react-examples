@@ -19,8 +19,6 @@ export const selectSubReddit = (state: AppState, selectedSubReddit: string): App
 };
 
 const receivePosts = (state: AppState) => (subRedditService: SubRedditService): [AppState, SubRedditService] => {
-  console.log('receivePosts');
-  console.log(subRedditService);
   return [{
     ...state,
     postsBySubReddit: {
