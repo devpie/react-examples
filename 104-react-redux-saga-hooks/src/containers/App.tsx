@@ -6,10 +6,15 @@ import Posts from '../components/Posts';
 import {RootState} from '../reducers';
 
 const SUBREDDIT_LIST = ['reactjs', 'frontend'];
-const getSelectedSubreddit = (state: RootState) => state.selectedSubreddit;
-const getSubreddit = (selectedSubreddit: string) => (state: RootState) => (
-  state.postsBySubreddit[selectedSubreddit]
-);
+const getSelectedSubreddit =
+  (state: RootState) => state.selectedSubreddit;
+const getSubredditPosts =
+  (selectedSubreddit: string) =>
+    (state: RootState) =>
+      (state.postsBySubreddit[selectedSubreddit]);
+const getSelectedSubReddit =
+  (state: RootState) => state.selectedSubreddit || SUBREDDIT_LIST[0];
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,7 +30,8 @@ const App = () => {
     dispatch(invalidateSubreddit(selectedSubreddit));
   };
 
-  const {isFetching, lastUpdated, items} = useSelector(getSubreddit(selectedSubreddit));
+  const {isFetching, lastUpdated, items} = useSelector(getSubredditPosts(selectedSubreddit));
+  const selectedSubReddit = useSelector(getSelectedSubReddit)
   const isEmpty = items.length === 0;
 
   return (
@@ -33,6 +39,7 @@ const App = () => {
       <Picker
         onChange={handleChange}
         options={SUBREDDIT_LIST}
+        value={selectedSubReddit}
       />
       <p>
         {lastUpdated &&
@@ -50,7 +57,7 @@ const App = () => {
       {isEmpty
         ? (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
         : <div style={{opacity: isFetching ? 0.5 : 1}}>
-          <Posts/>
+          <Posts posts={items}/>
         </div>
       }
     </div>

@@ -3,12 +3,12 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../reducers';
 
 export type PickerProps = {
+  value: string,
   options: string[],
   onChange: (value: string) => void,
 };
 
-const Picker = ({onChange, options}: PickerProps) => {
-  const value = useSelector((state: RootState) => state.selectedSubreddit || options[0]);
+const Picker = ({onChange, options, value}: PickerProps) => {
   return (
     <span>
     <h1>{value}</h1>
